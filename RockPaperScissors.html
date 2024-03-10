@@ -1,0 +1,7 @@
+function getComputerChoice(randomChoice) {
+    return randomChoice[Math.floor(Math.random() * randomChoice.length)];
+}
+
+let randomChoice = ["Rock", "Paper", "Scissors"];
+
+console.log(getComputerChoice(randomChoice));
