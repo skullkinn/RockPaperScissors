@@ -26,14 +26,7 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        const playerSelection = prompt("Let's play a game of Rock Paper Scissors!").toLowerCase();
-        const computerSelection = getComputerChoice(randomChoice);
-        playRound(playerSelection, computerSelection);
-        rounds ++ 
-    }
-}
+
 playGame();
 
 console.log("Final Score:");
