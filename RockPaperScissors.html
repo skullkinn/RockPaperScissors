@@ -6,50 +6,72 @@
     <title>Document</title>
 </head>
 <body>
-    
+<div id="buttons">
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+</div>
+    <div id="container"></div>
 </body>
-</html>
 <script>
 const randomChoice = ["Rock", "Paper", "Scissors"];
+let compScore = 0;
+let playerScore = 0;
+let rounds = 0;
 
 function getComputerChoice(choices) {
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
-let compScore = 0;
-let playerScore = 0;
-let rounds = 1;
+document.querySelectorAll("#buttons button").forEach(button => {
+    button.addEventListener("click", () => {
+        const playerChoice = button.textContent;
+        const computerSelection = getComputerChoice(randomChoice);
+        playRound(playerChoice, computerSelection);   
+        rounds++;
+        if (rounds === 5) {
+            displayFinalResult();
+        }
+    });
+});
 
-function playRound(playerSelection, computerSelection) {
-    if (playerSelection.toLowerCase() !== "rock" && playerSelection.toLowerCase() !== "paper" && playerSelection.toLowerCase() !== "scissors"){
-        alert("You did not chose rock, paper or scissors!");
-    } else if (playerSelection.toLowerCase() === computerSelection.toLowerCase()) {
-        alert("It's a Tie!");
+
+function playRound(playerChoice, computerSelection) {
+    const roundResult = document.createElement("div");
+    roundResult.classList.add("result");
+    if (playerChoice === computerSelection) {
+        roundResult.textContent ="It's a Tie!";
     } else if (
-        (playerSelection.toLowerCase() === "rock" && computerSelection.toLowerCase() === "scissors") ||
-        (playerSelection.toLowerCase() === "paper" && computerSelection.toLowerCase() === "rock") ||
-        (playerSelection.toLowerCase() === "scissors" && computerSelection.toLowerCase() === "paper")
+        (playerChoice === "Rock" && computerSelection === "Scissors") ||
+        (playerChoice === "Paper" && computerSelection === "Rock") ||
+        (playerChoice === "Scissors" && computerSelection === "Paper")
     ) {
         playerScore++;
-        alert(`You win! ${playerSelection} beats ${computerSelection}.`);
+        roundResult.textContent = `You win! ${playerChoice} beats ${computerSelection}.`;
     } else {
         compScore++;
-        alert (`You lose! ${computerSelection} beats ${playerSelection}.`);
+        roundResult.textContent= `You lose! ${computerSelection} beats ${playerChoice}.`;
     }
+    document.querySelector("#container").appendChild(roundResult);
 }
 
+function displayFinalResult() {
+    const container = document.querySelector("#container");
+    const content = document.createElement("div");
+    content.classList.add("content");
+    content.textContent = "Final Score:";
+    content.textContent += " Player: " + playerScore; 
+    content.textContent += " Computer: " + compScore;
 
-playGame();
+    if (playerScore > compScore) {
+        content.textContent += " You win!";
+    } else if (playerScore < compScore) {
+        content.textContent += " Computer wins!";
+    } else {
+        content.textContent += " It's a tie!";
+    }
 
-console.log("Final Score:");
-console.log("Player: " + playerScore);
-console.log("Computer: " + compScore);
-
-if (playerScore > compScore) {
-    console.log("You win!");
-} else if (playerScore < compScore) {
-    console.log("Computer wins!");
-} else {
-    console.log("It's a tie!");
+    container.appendChild(content);
 }
 </script>
+</html>
